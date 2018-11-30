@@ -150,6 +150,7 @@ public class Welcome_activity extends AppCompatActivity {
         });
         dialog.show();
         Toast.makeText(this,"text",Toast.LENGTH_SHORT).show();
-        //Test to see if it's working or not 
+        //Test to see if it's working or not
+        //Why does this manipulation not working ???? 
     }
 }
