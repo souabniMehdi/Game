@@ -149,5 +149,6 @@ public class Welcome_activity extends AppCompatActivity {
             }
         });
         dialog.show();
+        Toast.makeText(this,"text",Toast.LENGTH_SHORT).show();
     }
 }
