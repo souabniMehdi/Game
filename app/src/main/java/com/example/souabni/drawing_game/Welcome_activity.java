@@ -17,19 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class Welcome_activity extends AppCompatActivity {
-//    je
-//    e
-//            e
-//    e
-//                    e
-//    e
-//                            e
-//    e
-//                                    e
-//    e
-//                                            e
-//    e
-//                                                    e
+
     Button btnStartGame,btnAddPlayer;
     EditText editTxtPlayerName;
     ListView listViewPlayers;
