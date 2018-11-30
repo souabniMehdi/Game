@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Drawing_Game</string>
+    <string name="Start">Start</string>
+    <string name="AddPlayer">Add Player</string>
+    <string name="Logo">Logo of the game</string>
+    <string name="What_is_that">What\'s that? </string>
+    <string name="Default_text">Default text</string>
+    <string name="Undo">Undo</string>
+    <string name="write_name_player">Write player name</string>
+</resources>
