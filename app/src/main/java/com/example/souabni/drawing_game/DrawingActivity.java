@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 public class DrawingActivity extends AppCompatActivity {
 
@@ -89,14 +92,34 @@ public class DrawingActivity extends AppCompatActivity {
 
     public void next_activity(){
         //On vient envoyer ici la valeur de la bitmap pour pouvoir l'afficher dans l'activite suivante.
-        //Intent i = new Intent(v.getContext(), GuessActivity.class);
-        Intent i = new Intent(this, GuessActivity.class);
-        ByteArrayOutputStream bs = new ByteArrayOutputStream();
-        paintView.getmBitmap().compress(Bitmap.CompressFormat.PNG, 50, bs);
-        i.putExtra("byteArray", bs.toByteArray());
         nb_players = nb_players - 1;
         ((Players) this.getApplication()).setNb_players_left(nb_players);
-        startActivity(i);
+        if (nb_players != 0){
+            //We will test here if all players already played. I f yes, we will redirect them to the final summary activity.
+            //Else we will redirect them to the guess activity
+            Intent i = new Intent(this, GuessActivity.class);
+            ByteArrayOutputStream bs = new ByteArrayOutputStream();
+            paintView.getmBitmap().compress(Bitmap.CompressFormat.PNG, 50, bs);
+
+            //We save the draw into the advancement_of_game ArrayList
+            String encode_byte_array = android.util.Base64.encodeToString(bs.toByteArray(), Base64.DEFAULT);
+            ArrayList<String> arrayList = ((Players) this.getApplication()).getAdvancement_of_game();
+            arrayList.add(encode_byte_array);
+            ((Players) this.getApplication()).setAdvancement_of_game(arrayList);
+            i.putExtra("encode_byte_array",encode_byte_array);
+            startActivity(i);
+        }else {
+            Intent i = new Intent(this, DisplayRandomImageActivity.class);
+            ByteArrayOutputStream bs = new ByteArrayOutputStream();
+            paintView.getmBitmap().compress(Bitmap.CompressFormat.PNG, 50, bs);
+
+            //We save the draw into the advancement_of_game ArrayList
+            String encode_byte_array = android.util.Base64.encodeToString(bs.toByteArray(), Base64.DEFAULT);
+            ((Players) this.getApplication()).Add_string(encode_byte_array);
+            startActivity(i);
+        }
+        //---------------------------------------------------------------------------
+        //i.putExtra("byteArray", bs.toByteArray());
     }
 
     //Dans le futur, implémenter cette fonction pour pouvoir cacher la barre du bas.

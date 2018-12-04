@@ -61,8 +61,6 @@ public class Welcome_activity extends AppCompatActivity {
             values.add(the_values [i]);
         }
 
-        //final ArrayList<String> values = new ArrayList<String>();
-
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, values);
         listViewPlayers = (ListView) findViewById(R.id.ListViewPlayers);
@@ -70,22 +68,18 @@ public class Welcome_activity extends AppCompatActivity {
         listViewPlayers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                showUpdateBox(values.get(i),i);
+                //showUpdateBox(values.get(i),i);
+                Toast.makeText(Welcome_activity.this, "Hold on the item to edit it", Toast.LENGTH_SHORT).show();
             }
         });
 
-//        final ArrayList<String> listPlayerHint = new ArrayList<String>();
-//        for (int i = 0; i < the_values.length; ++i) {
-//            listPlayerHint.add(the_values [i]);
-//        }
-//
-//        final ArrayList<String> values = new ArrayList<String>();
-//        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-//                android.R.layout.simple_list_item_1, android.R.id.text1, values);
-//
-//        listViewPlayers = (ListView) findViewById(R.id.ListViewPlayers);
-//        listViewPlayers.setAdapter(adapter);
-
+        listViewPlayers.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                showUpdateBox(values.get(i),i);
+                return true;
+            }
+        });
 
         btnAddPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,20 +102,13 @@ public class Welcome_activity extends AppCompatActivity {
         btnStartGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (values.size() >= 3){
+                if (values.size() >= 3 && first_player_added){
                     //We catch the number of players to know how much loop we will have to do.
                     check_nb_player(values);
                     Toast.makeText(view.getContext(),"(WelcomeActivity) Nb_players within the Player class : " + Integer.toString(values.size()), Toast.LENGTH_SHORT).show();
 
-                    //If the number of players is pair
-                    if (values.size() % 2 == 0){
-                        Intent i = new Intent(view.getContext(), DrawingActivity.class);
-                        startActivity(i);
-                    }
-                    else {
-                        Intent i = new Intent(view.getContext(), DisplayRandomImageActivity.class);
-                        startActivity(i);
-                    }
+                    Intent i = new Intent(view.getContext(), DrawingActivity.class);
+                    startActivity(i);
                 }else {
                     Toast.makeText(view.getContext(),"(WelcomeActivity) Require at least 3 players to play", Toast.LENGTH_SHORT).show();
                 }
@@ -131,6 +118,7 @@ public class Welcome_activity extends AppCompatActivity {
 
     protected void check_nb_player(ArrayList<String> players){
         ((Players) this.getApplication()).setNb_players_left(players.size());
+        ((Players) this.getApplication()).setName_players(players);
     }
 
     public void showUpdateBox(String oldItem, final int index){
